@@ -4,7 +4,7 @@ import java.net.UnknownHostException;
 
 public class Chat {
     
-    // main() start :
+    	// main() start :
 	public static void main(String[] args) {
 	    Chat chatApplication = new Chat();
 	    chatApplication.startChat();
@@ -67,7 +67,7 @@ public class Chat {
 	                System.out.println("/send"); // TODO: Fix later .
 	            } else if(userInput.equals("/exit")) {
 	                System.out.println("Closing Connections...\nChat Successfully Exited.");
-	                // cAll ...
+	                // closeAll() ...
 	                System.exit(0);
 	            } else {
 	                System.out.println("Error : invalid command , please try again...");
@@ -80,7 +80,7 @@ public class Chat {
 	        if(scanner != null) {
 	            scanner.close();
 	        }
-	        // cAll ...
+	        // closeAll() ...
 	    }
 	    
 	}
