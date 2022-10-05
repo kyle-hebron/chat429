@@ -6,15 +6,31 @@ import java.net.ServerSocket;
 
 
 public class Chat {
-    
-    	// main() start :
+	
+	// main() start :
 	public static void main(String[] args) {
-	    Chat chatApplication = new Chat();
-	    chatApplication.startChat();
+	    if(args != null && args.length > 0) {
+	        try {
+	            int listenPort = Integer.parseInt(args[0]);
+	            Chat chatApplication = new Chat(listenPort);
+	            chatApplication.startChat();
+	        } catch(NumberFormatException nfe) {
+	            System.out.println("Invalid argument for port...");
+	        }
+	    } else {
+	        System.out.println("Invalid Argument : run using 'java Chat <PortNumber>'");
+	    }
 	}
 	// main() end .
 	
 	private InetAddress myIPAddress;
+	private int myPort;
+	
+	// Constructor start :
+	private Chat(int myPort) {
+	    this.myPort = myPort;
+	}
+	// Constructor end .
 	
 	// help() start :
 	private void help() { // TODO: Type descriptions later !
@@ -40,6 +56,12 @@ public class Chat {
 	}
 	// getmyIPAddress() end .
 	
+	// getmyPort() start :
+	private int getmyPort() {
+	    return myPort;
+	}
+	// getmyPort() end .
+	
 	// startChat() start :
 	private void startChat() {
 	    
@@ -59,7 +81,7 @@ public class Chat {
 	            } else if(userInput.equals("/myip")) {
 	                System.out.println(getmyIPAddress());
 	            } else if(userInput.equals("/myport")) {
-	                System.out.println("/myport"); // TODO: Fix later .
+	                System.out.println(getmyPort());
 	            } else if(userInput.equals("/connect")) {
 	                System.out.println("/connect"); // TODO: Fix later .
 	            } else if(userInput.equals("/list")) {
