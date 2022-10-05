@@ -110,13 +110,22 @@ public class Chat {
 	    
 	}
 	// startChat() end .
-	public class Server implements Closeable{
-	
+	public class Server implements Runnable{
+		
+		Socket sock = null;
+
 		List<Client> listOfClients = new ArrayList<Client>();
+
 		@Override
-		public run(int port){
-			ServerSocket servSock = new ServerSocket(port);
-			Socket sock = servSock.accept("Connected");
+		public void run() {
+			
+			try{
+				ServerSocket serSoc = new ServerSocket(getmyPort());
+				Socket client = serSoc.accept();
+			} catch (IOException e) {
+
+			}
+			
 		} 
 	}
 	
