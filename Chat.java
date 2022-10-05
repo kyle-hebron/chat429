@@ -1,6 +1,9 @@
 import java.util.*;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.net.ServerSocket;
+
+
 
 public class Chat {
     
@@ -85,5 +88,19 @@ public class Chat {
 	    
 	}
 	// startChat() end .
+	public class Server implements Closeable{
+	
+		List<Client> listOfClients = new ArrayList<Client>();
+		@Override
+		public run(int port){
+			ServerSocket servSock = new ServerSocket(port);
+			Socket sock = servSock.accept("Connected");
+		} 
+	}
+	
 	
 }
+
+
+
+
