@@ -1,7 +1,13 @@
 import java.util.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.sql.Connection;
 import java.net.ServerSocket;
+import java.net.Socket;
 
 
 
@@ -109,9 +115,26 @@ public class Chat {
 	    }
 	    
 	}
+
+
+
 	// startChat() end .
-	public class Server implements Runnable{
+
+	public class Client implements Runnable{
+
+		@Override
+		public void run() {
+			// TODO Auto-generated method stub
+			
+		}
 		
+	}
+
+	public class Server implements Runnable{
+
+
+		BufferedReader connected;
+		boolean stopped;
 		Socket sock = null;
 
 		List<Client> listOfClients = new ArrayList<Client>();
@@ -121,13 +144,34 @@ public class Chat {
 			
 			try{
 				ServerSocket serSoc = new ServerSocket(getmyPort());
-				Socket client = serSoc.accept();
+				
+				while(!stopped){
+					Socket client = serSoc.accept();
+					connected = new BufferedReader(new InputStreamReader(sock.getInputStream()));
+					Client temp = new Client();
+					listOfClients.add(temp);
+				}
+				
+				
 			} catch (IOException e) {
 
-			}
-			
+			}	
+
 		} 
+
+		public void shutdown(){
+			stopped = true;
+			int i = 0;
+			while(!listOfClients.isEmpty()){
+				listOfClients.get(i++).exit();
+			}
+		}
+
+		
+
 	}
+
+
 	
 	
 }
