@@ -143,10 +143,10 @@ public class Chat {
 		public void run() {
 			
 			try{
-				ServerSocket serSoc = new ServerSocket(getmyPort());
+				ServerSocket serSoc = new ServerSocket(getmyPort());										//Gets the port of the client and uses it as the serversocket for people to connect to
 				
 				while(!stopped){
-					Socket client = serSoc.accept();
+					Socket client = serSoc.accept();														//Accepts incoming clients
 					connected = new BufferedReader(new InputStreamReader(sock.getInputStream()));
 					Client temp = new Client();
 					listOfClients.add(temp);
@@ -170,6 +170,21 @@ public class Chat {
 		
 
 	}
+
+	public class Room {
+		InetAddress host;
+		int port;
+
+
+
+		Room(InetAddress host, int port){
+			this.host = host;
+			this.port = port;
+		}
+		
+	}
+
+	
 
 
 	
