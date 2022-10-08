@@ -122,11 +122,53 @@ public class Chat {
 
 	public class Client implements Runnable{
 
+		BufferedReader connected;
+		Socket sock;
+		boolean open = true;
+
+		public Client(BufferedReader connected, Socket ip){
+			this.connected = connected;
+			this.sock = ip;
+		}
+
+		public void exit(){
+			try{
+			if(connected == null){
+				connected.close();
+			}
+			if(sock != null) {
+				sock.close();
+			}
+			open = false;
+			Thread.currentThread().interrupt();
+			} catch(IOException e){
+				
+			}
+		} 
+
 		@Override
 		public void run() {
-			// TODO Auto-generated method stub
+			while(!sock.isClosed() && open){
+				String temp;
+			try {
+				temp = connected.readLine();
+				if(temp != null) {
+
+					System.out.println(sock.getInetAddress().getHostAddress() + " - " + temp);
+
+				} else {
+					exit();
+					return;
+				}
+				
+			} catch(IOException e){
+				
+			}
+		}
 			
 		}
+
+		
 		
 	}
 
@@ -148,7 +190,7 @@ public class Chat {
 				while(!stopped){
 					Socket client = serSoc.accept();														//Accepts incoming clients
 					connected = new BufferedReader(new InputStreamReader(sock.getInputStream()));
-					Client temp = new Client();
+					Client temp = new Client(connected, sock);
 					listOfClients.add(temp);
 				}
 				
@@ -159,7 +201,7 @@ public class Chat {
 
 		} 
 
-		public void shutdown(){
+		public void shutdown() throws IOException{
 			stopped = true;
 			int i = 0;
 			while(!listOfClients.isEmpty()){
