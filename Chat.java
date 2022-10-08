@@ -19,6 +19,7 @@ public class Chat {
 	        try {
 	            int listenPort = Integer.parseInt(args[0]);
 	            Chat chatApplication = new Chat(listenPort);
+				
 	            chatApplication.startChat();
 	        } catch(NumberFormatException nfe) {
 	            System.out.println("Invalid argument for port...");
@@ -69,6 +70,7 @@ public class Chat {
 	// getmyPort() end .
 	
 	// startChat() start :
+	Server serv;
 	private void startChat() {
 	    
 	    Scanner scanner = new Scanner(System.in);
@@ -76,6 +78,8 @@ public class Chat {
 	    try {
 	        
 	        myIPAddress = InetAddress.getLocalHost();
+			serv = new Server();
+			new Thread(serv).start();
 	        //...
 	        //...
 	        
@@ -183,7 +187,7 @@ public class Chat {
 
 		@Override
 		public void run() {
-			
+			System.out.println("Server has opened");
 			try{
 				ServerSocket serSoc = new ServerSocket(getmyPort());										//Gets the port of the client and uses it as the serversocket for people to connect to
 				
