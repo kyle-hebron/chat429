@@ -179,7 +179,7 @@ public class Chat {
 	public class Server implements Runnable{
 
 
-		BufferedReader connected;
+		BufferedReader connected;		
 		boolean stopped;
 		Socket sock = null;
 
@@ -194,8 +194,8 @@ public class Chat {
 				while(!stopped){
 					Socket client = serSoc.accept();														//Accepts incoming clients
 					connected = new BufferedReader(new InputStreamReader(sock.getInputStream()));
-					Client temp = new Client(connected, sock);
-					listOfClients.add(temp);
+					Client temp = new Client(connected, sock);												//Creates a client with the socket and the bufferedreader
+					listOfClients.add(temp);													
 				}
 				
 				
@@ -220,7 +220,6 @@ public class Chat {
 	public class Room {
 		InetAddress host;
 		int port;
-
 
 
 		Room(InetAddress host, int port){
