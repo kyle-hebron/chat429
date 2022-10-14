@@ -124,99 +124,6 @@ public class Chat {
 
 	// startChat() end .
 
-	public class Client implements Runnable{
-
-		BufferedReader connected;
-		Socket sock;
-		boolean open = true;
-
-		public Client(BufferedReader connected, Socket ip){
-			this.connected = connected;
-			this.sock = ip;
-		}
-
-		public void exit(){
-			try{
-			if(connected == null){
-				connected.close();
-			}
-			if(sock != null) {
-				sock.close();
-			}
-			open = false;
-			Thread.currentThread().interrupt();
-			} catch(IOException e){
-				
-			}
-		} 
-
-		@Override
-		public void run() {
-			while(!sock.isClosed() && open){
-				String temp;
-			try {
-				temp = connected.readLine();
-				if(temp != null) {
-
-					System.out.println(sock.getInetAddress().getHostAddress() + " - " + temp);
-
-				} else {
-					exit();
-					return;
-				}
-				
-			} catch(IOException e){
-				
-			}
-		}
-			
-		}
-
-		
-		
-	}
-
-	public class Server implements Runnable{
-
-
-		BufferedReader connected;		
-		boolean stopped;
-		Socket sock = null;
-
-		List<Client> listOfClients = new ArrayList<Client>();
-
-		@Override
-		public void run() {
-			System.out.println("Server has opened with port " + getmyPort());
-			try{
-				ServerSocket serSoc = new ServerSocket(getmyPort());										//Gets the port of the client and uses it as the serversocket for people to connect to
-				
-				while(!stopped){
-					Socket client = serSoc.accept();														//Accepts incoming clients
-					connected = new BufferedReader(new InputStreamReader(sock.getInputStream()));
-					Client temp = new Client(connected, sock);												//Creates a client with the socket and the bufferedreader
-					listOfClients.add(temp);													
-				}
-				
-				
-			} catch (IOException e) {
-
-			}	
-
-		} 
-
-		public void shutdown() throws IOException{
-			stopped = true;
-			int i = 0;
-			while(!listOfClients.isEmpty()){
-				listOfClients.get(i++).exit();
-			}
-		}
-
-		
-
-	}
-
 	public class Room {
 		InetAddress host;
 		int port;
@@ -266,8 +173,98 @@ public class Chat {
 		
 	}
 
-	
+	public class Client implements Runnable{
 
+		BufferedReader connected;
+		Socket sock;
+		boolean open = true;
+
+		public Client(BufferedReader connected, Socket ip){
+			this.connected = connected;
+			this.sock = ip;
+		}
+
+		public void exit(){
+			try{
+			if(connected == null){
+				connected.close();
+			}
+			if(sock != null) {
+				sock.close();
+			}
+			open = false;
+			Thread.currentThread().interrupt();
+			} catch(IOException e){
+				
+			}
+		} 
+
+		@Override
+		public void run() {
+			while(!sock.isClosed() && open){
+				String temp;
+			try {
+				temp = connected.readLine();
+				if(temp != null) {
+
+					System.out.println(sock.getInetAddress().getHostAddress() + " - " + temp);
+
+				} else {
+					exit();
+					return;
+				}
+				
+			} catch(IOException e){
+				
+			}
+		}
+			
+		}
+		
+	}
+
+	public class Server implements Runnable{
+
+
+		BufferedReader connected;		
+		boolean stopped;
+		Socket sock = null;
+
+		List<Client> listOfClients = new ArrayList<Client>();
+
+		@Override
+		public void run() {
+			System.out.println("Server has opened with port " + getmyPort());
+			try{
+				ServerSocket serSoc = new ServerSocket(getmyPort());										//Gets the port of the client and uses it as the serversocket for people to connect to
+				
+				while(!stopped){
+					Socket client = serSoc.accept();														//Accepts incoming clients
+					connected = new BufferedReader(new InputStreamReader(sock.getInputStream()));
+					Client temp = new Client(connected, sock);												//Creates a client with the socket and the bufferedreader
+					listOfClients.add(temp);													
+				}
+				
+				
+			} catch (IOException e) {
+
+			}	
+
+		} 
+
+		public void shutdown() throws IOException{
+			stopped = true;
+			int i = 0;
+			while(!listOfClients.isEmpty()){
+				listOfClients.get(i++).exit();
+			}
+		}
+
+		
+
+	}
+
+	
 
 	
 	
