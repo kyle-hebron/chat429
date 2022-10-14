@@ -220,11 +220,48 @@ public class Chat {
 	public class Room {
 		InetAddress host;
 		int port;
+		boolean conec;
+		PrintWriter statement;
+		Socket sock;
 
 
 		Room(InetAddress host, int port){
 			this.host = host;
 			this.port = port;
+		}
+
+		public boolean connected(){
+			try{
+				this.sock = new Socket(host, port);
+				this.statement = new PrintWriter(sock.getOutputStream(), true);
+				conec = true;
+				return true;
+			} catch(IOException e){
+				conec = false;
+				return false;
+			}
+
+		}
+
+		public void send(String message){
+			if(conec){
+				statement.println(message);
+			}
+		}
+
+		public boolean closeCon(){
+			if(statement != null){
+				statement.close();
+			} 
+			if(sock != null) {
+				try{
+					sock.close();
+				} catch(IOException e){
+
+				}
+			}
+			conec = false;
+			return false;
 		}
 		
 	}
