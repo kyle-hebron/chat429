@@ -79,21 +79,21 @@ public class Chat {
 	        try {
 	            InetAddress remoteAddress = InetAddress.getByName(cmdArgs[1]);
 	            int remotePort = Integer.parseInt(cmdArgs[2]);
-	            System.out.println("Connecting to " +remoteAddress+ " on port /" +remotePort+ " ...");
+	            System.out.println("Connecting to " +remoteAddress+ " on port /" +remotePort+ " ...");   // Attempts to connect to the given IP address and port , a message is displayed stating so .
 	            Room roomHost = new Room(remoteAddress, remotePort);
 	            if(roomHost.connected()) {
 	                roomsHosts.put(clientCounter, roomHost);
-	                System.out.println("Successfully Connected , Client ID : " + clientCounter++ + " .");
+	                System.out.println("Successfully Connected , Client ID : " + clientCounter++ + " .");   // If the connection is successful , a message is displayed stating so along with the client id .
 	            } else {
-	                System.out.println("Error : connection unsuccessful , please try again...");
+	                System.out.println("Error : connection unsuccessful , please try again...");   // If the connection is unsuccessful , a message is displayed stating so and the user is prompted to try again .
 	            }
 	        } catch(NumberFormatException nfe) {
-	            System.out.println("Error : connection unsuccessful (invalid remote host port) , please try again...");
+	            System.out.println("Error : connection unsuccessful (invalid remote host port) , please try again...");   // An error message is displayed when the given port is invalid , the user is prompted to try again .
 	        } catch(UnknownHostException e) {
-	            System.out.println("Error : connection unsuccessful (invalid remote host address) , please try again...");
+	            System.out.println("Error : connection unsuccessful (invalid remote host address) , please try again...");   // An error message is displayed when the given IP address is invalid , the user is prompted to try again .
 	        }
 	    } else {
-	        System.out.println("Error : the command format is invalid , please try '/connect <Destination> <PortNumber>' ...");
+	        System.out.println("Error : the command format is invalid , please try '/connect <Destination> <PortNumber>' ...");   // An error message is displayed when the command format is invalid , the user is prompted to try again and shown the proper format .
 	    }
 	    
 	}
