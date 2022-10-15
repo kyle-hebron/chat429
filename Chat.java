@@ -206,8 +206,8 @@ public class Chat {
 	            } else if(userInput.startsWith("/send")) {
 	                String[] cmdArgs = userInput.split("\\s+");
 	                send(cmdArgs);
-	            } else if(userInput.startsWith("/exit")) {
-	                System.out.println("Closing Connections...\nChat Successfully Exited.");
+	            } else if(userInput.equals("/exit")) {
+	                
 	                closeEverything();
 	                System.exit(0);
 	            } else {
@@ -233,8 +233,9 @@ public class Chat {
 	    for(Integer id : roomsHosts.keySet()) {
 	        Room roomHost = roomsHosts.get(id);
 	        roomHost.closeCon();
+			System.out.println("Closing Connections...\nChat Successfully Exited.");
 	    }
-	    roomsHosts.clear();
+	    //roomsHosts.clear();
 	    serv.shutdown();
 	    
 	}
@@ -382,10 +383,13 @@ public class Chat {
 
 		public void shutdown() throws IOException{
 			stopped = true;
-			int i = 0;
-			while(!listOfClients.isEmpty()){
-				listOfClients.get(i++).exit();
+			
+			for(Client client : listOfClients){
+				client.exit();
 			}
+
+			Thread.currentThread().interrupt();
+
 		}
 
 		
