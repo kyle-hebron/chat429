@@ -356,7 +356,7 @@ public class Chat {
 				
 				if(temp != null) {
 
-					System.out.println(temp);
+					System.out.println(temp);		//Prints out any messages from server
 
 				} else {
 					exit();
