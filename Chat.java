@@ -152,6 +152,7 @@ public class Chat {
 	        try {
 	            int id = Integer.parseInt(cmdArgs[1]);
 	            Room roomHost = roomsHosts.get(id);
+
 	            System.out.println("ID : " + roomsHosts.get(id));
 	            if(roomHost != null) {
 	                StringBuilder message = new StringBuilder();
@@ -210,7 +211,7 @@ public class Chat {
 	                closeEverything();
 	                System.exit(0);
 	            } else {
-	                System.out.println("Error : invalid command , please try again...");
+	                System.out.println("Error : invalid command , please try again...123");
 	            }
 	        }
 	        
@@ -268,7 +269,7 @@ public class Chat {
 		}
 
 		public void send(String message){
-			if(conec){
+			if(conec == true){
 				statement.println(message);
 			}
 		}
@@ -286,6 +287,11 @@ public class Chat {
 			}
 			conec = false;
 			return false;
+		}
+
+		@Override
+		public String toString() {
+			return host + "  - " + port;
 		}
 		
 	}
@@ -356,10 +362,15 @@ public class Chat {
 				ServerSocket serSoc = new ServerSocket(getmyPort());										//Gets the port of the client and uses it as the serversocket for people to connect to
 				
 				while(!stopped){
-					Socket client = serSoc.accept();														//Accepts incoming clients
-					connected = new BufferedReader(new InputStreamReader(sock.getInputStream()));
-					Client temp = new Client(connected, sock);												//Creates a client with the socket and the bufferedreader
-					listOfClients.add(temp);													
+					try{
+						sock = serSoc.accept();														//Accepts incoming clients
+						connected = new BufferedReader(new InputStreamReader(sock.getInputStream()));
+						Client temp = new Client(connected, sock);
+						new Thread(temp).start();												//Creates a client with the socket and the bufferedreader
+						listOfClients.add(temp);
+					} catch (IOException ez)	{
+
+					}											
 				}
 				
 				
