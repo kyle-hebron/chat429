@@ -267,7 +267,7 @@ public class Chat {
 				conec = true;
 				
 			} catch(IOException e){
-				
+				System.out.println("ERROR 404");
 			}
 			return conec;
 
@@ -289,11 +289,15 @@ public class Chat {
 				try{
 					sock.close();
 				} catch(IOException e){
-
+					System.out.println("ERROR 404");
 				}
 			}
 			conec = false;
 			return conec;
+		}
+
+		public int getPortNum(){		//Returns port number for the specific room
+			return port;
 		}
 
 		@Override
@@ -301,9 +305,7 @@ public class Chat {
 			return host + "\t/" + port;
 		}
 
-		public int getPortNum(){		//Returns port number for the specific room
-			return port;
-		}
+
 		
 	}
 
@@ -327,7 +329,7 @@ public class Chat {
 				try{
 					connected.close();
 				} catch (IOException e) {
-
+					System.out.println("ERROR 404");
 				}
 				
 			if(sock != null) {				//Will close the socket
@@ -335,7 +337,7 @@ public class Chat {
 					sock.close();
 				}
 			 catch(IOException e){
-
+					System.out.println("ERROR 404");
 				}
 				open = false;
 				Thread.currentThread().interrupt();	//Closes the thread
@@ -363,7 +365,7 @@ public class Chat {
 				}
 				
 				} catch(IOException e){
-				
+					System.out.println("ERROR 404");
 				}
 			}
 			
@@ -378,12 +380,22 @@ public class Chat {
 
 	public class Server implements Runnable{
 
-
 		BufferedReader connected;		
 		boolean stopped;
 		Socket sock = null;
 
 		List<Client> listOfClients = new ArrayList<Client>();
+
+		public void shutdown() throws IOException{
+			stopped = true;
+			
+			for(Client client : listOfClients){					//Goes through the list of clients and removes them since the server is shutting down. 
+				client.exit();
+			}
+
+			Thread.currentThread().interrupt();					//Exits the thread
+
+		}
 
 		@Override
 		public void run() {
@@ -399,35 +411,18 @@ public class Chat {
 						new Thread(temp).start();												//Creates a thread with the client and starts
 						listOfClients.add(temp);
 					} catch (IOException ez)	{
-
+						System.out.println("ERROR 404");
 					}											
 				}
 				
 				
 			} catch (IOException e) {
-
+				System.out.println("ERROR 404");
 			}	
 
 		} 
 
-		public void shutdown() throws IOException{
-			stopped = true;
-			
-			for(Client client : listOfClients){					//Goes through the list of clients and removes them since the server is shutting down. 
-				client.exit();
-			}
-
-			Thread.currentThread().interrupt();					//Exits the thread
-
-		}
-
-		
-
 	}
-
-	
-
-	
 	
 }
 
