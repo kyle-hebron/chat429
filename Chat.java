@@ -43,7 +43,7 @@ public class Chat {
 	// Constructor end .
 	
 	// help() start :
-	private void help() { // TODO: Type descriptions later !
+	private void help() {
 	    
 	    System.out.println("--------------------------------------");
 	    System.out.println("~ Available Options , Command Manual ~");
@@ -62,13 +62,13 @@ public class Chat {
 	
 	// getmyIPAddress() start :
 	private String getmyIPAddress() {
-	    return myIPAddress.getHostAddress();
+	    return myIPAddress.getHostAddress();   // Returns the IP address .
 	}
 	// getmyIPAddress() end .
 	
 	// getmyPort() start :
 	private int getmyPort() {
-	    return myPort;
+	    return myPort;   // Returns the port .
 	}
 	// getmyPort() end .
 	
@@ -102,18 +102,16 @@ public class Chat {
 	// list() start :
 	private void list() {
 	    
-	    System.out.println("ID\tIP ADDRESS\tPORT");
+	    System.out.println("ID\tIP ADDRESS\tPORT");   // Header .
 	    
 	    if(roomsHosts.isEmpty()) {
-	        System.out.println("There are no rooms available...");
+	        System.out.println("There are no rooms available...");   // Checks for a room(s) . If there is no room(s) available , a message is displayed stating so .
 	    } else {
 	        for(Integer id : roomsHosts.keySet()) {
 	            Room roomHost = roomsHosts.get(id);
-	            System.out.println(id +"\t"+ roomHost.toString());
+	            System.out.println(id +"\t"+ roomHost.toString());   // Checks for a room(s) . If there is a room(s) available , the ID + IP Address + Port are displayed .
 	        }
 	    }
-	    
-	    //...
 	    
 	}
 	// list() end .
