@@ -194,7 +194,7 @@ public class Chat {
 	                System.out.println(getmyIPAddress());
 	            } else if(userInput.equals("/myport")) {
 	                System.out.println(getmyPort());
-	            } else if(userInput.equals("/connect")) {
+	            } else if(userInput.startsWith("/connect")) {
 	                String[] cmdArgs = userInput.split("\\s+");
 	                connect(cmdArgs);
 	            } else if(userInput.equals("/list")) {
