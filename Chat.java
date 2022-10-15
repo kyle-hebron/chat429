@@ -187,7 +187,7 @@ public class Chat {
 			new Thread(serv).start();
 	        
 	        while(true) {
-	            System.out.println("Enter a command : ");
+	            System.out.println("Enter a command below : ");
 	            String userInput = scanner.nextLine();
 	            if(userInput.equals("/help")) {
 	                help();
@@ -330,7 +330,7 @@ public class Chat {
 				temp = connected.readLine();
 				if(temp != null) {
 
-					System.out.println(sock.getInetAddress().getHostAddress() + " - " + temp);
+					System.out.println(sock.getInetAddress().getHostAddress() + " ~ " + temp);
 
 				} else {
 					exit();
@@ -357,7 +357,7 @@ public class Chat {
 
 		@Override
 		public void run() {
-			System.out.println("Server has opened with port " + getmyPort());
+			System.out.println("Server has opened with port " + getmyPort() " .");
 			try{
 				ServerSocket serSoc = new ServerSocket(getmyPort());										//Gets the port of the client and uses it as the serversocket for people to connect to
 				
