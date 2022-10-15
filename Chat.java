@@ -211,7 +211,7 @@ public class Chat {
 	                closeEverything();
 	                System.exit(0);
 	            } else {
-	                System.out.println("Error : invalid command , please try again...123");
+	                System.out.println("Error : invalid command , please try again...");
 	            }
 	        }
 	        
