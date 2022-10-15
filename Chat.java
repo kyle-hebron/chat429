@@ -245,6 +245,9 @@ public class Chat {
 	// closeEverything() end .
 	
 	// ! ! ! //
+
+	//Room class: 
+	//Makes managing socket connection and wraps the socket and the output stream for the clients to send messages easier
 	
 	public class Room {
 		InetAddress host;
@@ -259,7 +262,7 @@ public class Chat {
 			this.port = port;
 		}
 
-		public boolean connected(){
+		public boolean connected(){			//Sees if client is connected so that it is able to recieve messages
 			try{
 				this.sock = new Socket(host, port);
 				this.statement = new PrintWriter(sock.getOutputStream(), true);
@@ -272,18 +275,17 @@ public class Chat {
 
 		}
 
-		public void send(String message){
+		public void send(String message){			//Responsible for outputting sent messages
 			if(conec == true){
-
-				statement.println(message);
+				statement.println(message);			//Prints the message to the reciever
 			} else {
 				System.out.println("User not connected, message not sent.");
 			}
 		}
 
-		public boolean closeCon(){
+		public boolean closeCon(){		//Closes connection 
 			if(statement != null){
-				statement.close();
+				statement.close();	
 			} 
 			if(sock != null) {
 				try{
@@ -301,11 +303,14 @@ public class Chat {
 			return host + "\t/" + port;
 		}
 
-		public int getPortNum(){
+		public int getPortNum(){		//Returns port number for the specific room
 			return port;
 		}
 		
 	}
+
+	//Client class:
+	//Connects to a socket and listens for messages from a connected client
 
 	public class Client implements Runnable{
 
@@ -313,21 +318,21 @@ public class Chat {
 		Socket sock = null;
 		boolean open = true;
 
-		public Client(BufferedReader connected, Socket ip){
+		public Client(BufferedReader connected, Socket ip){		//Constructor
 			this.connected = connected;
 			this.sock = ip;
 		}
 
 		public void exit(){
 			
-			if(connected == null){
+			if(connected == null){			//Will close any further communication with the others
 				try{
 					connected.close();
 				} catch (IOException e) {
 
 				}
-			
-			if(sock != null) {
+				
+			if(sock != null) {				//Will close the socket
 				try{
 					sock.close();
 				}
@@ -335,7 +340,7 @@ public class Chat {
 
 				}
 				open = false;
-				Thread.currentThread().interrupt();
+				Thread.currentThread().interrupt();	//Closes the thread
 			}
 		
 			
@@ -344,9 +349,9 @@ public class Chat {
 
 		@Override
 		public void run() {
-			while(!sock.isClosed() && open){
+			while(!sock.isClosed() && open){		
 				String temp;
-			try {
+			try {										//While it is connected to a socket and it is open, will print out what it is given
 				temp = connected.readLine();
 				
 				if(temp != null) {
@@ -355,7 +360,7 @@ public class Chat {
 
 				} else {
 					exit();
-					System.out.println("Connection terminated: " + sock.getInetAddress().getHostAddress() + ", please terminate on your end");
+					System.out.println("Connection terminated: " + sock.getInetAddress().getHostAddress() + ", please terminate on your end");	//Once a client terminates connection, it will disconnect from that server and tell the other clients to terminate their connection
 					return;
 				}
 				
@@ -368,6 +373,11 @@ public class Chat {
 		
 		}
 	
+
+		//Server class:
+		//Creates a new TCP socket to allow multiple connections
+	
+
 	public class Server implements Runnable{
 
 
@@ -381,14 +391,14 @@ public class Chat {
 		public void run() {
 			
 			try{
-				ServerSocket serSoc = new ServerSocket(getmyPort());										//Gets the port of the client and uses it as the serversocket for people to connect to
+				ServerSocket serSoc = new ServerSocket(getmyPort());								//Gets the port of the client and uses it as the serversocket for people to connect to
 				
 				while(!stopped){
 					try{
-						sock = serSoc.accept();														//Accepts incoming clients
-						connected = new BufferedReader(new InputStreamReader(sock.getInputStream()));
-						Client temp = new Client(connected, sock);
-						new Thread(temp).start();												//Creates a client with the socket and the bufferedreader
+						sock = serSoc.accept();														//Accepts data from incoming clients
+						connected = new BufferedReader(new InputStreamReader(sock.getInputStream()));	//Gets input stream for reading data from the socket
+						Client temp = new Client(connected, sock);								//Creates a temporary client with the bufferedreader and the socket
+						new Thread(temp).start();												//Creates a thread with the client and starts
 						listOfClients.add(temp);
 					} catch (IOException ez)	{
 
@@ -405,11 +415,11 @@ public class Chat {
 		public void shutdown() throws IOException{
 			stopped = true;
 			
-			for(Client client : listOfClients){
+			for(Client client : listOfClients){					//Goes through the list of clients and removes them since the server is shutting down. 
 				client.exit();
 			}
 
-			Thread.currentThread().interrupt();
+			Thread.currentThread().interrupt();					//Exits the thread
 
 		}
 
