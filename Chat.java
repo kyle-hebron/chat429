@@ -121,7 +121,7 @@ public class Chat {
 	// terminate() start :
 	private void terminate(String[] cmdArgs) {
 	    
-	    if(cmdArgs != null) {
+	    if(cmdArgs != null && cmdArgs.length == 2) {
 	        System.out.println("Termination of connection id " +cmdArgs[1]+ " in progress...");
 	        try {
 	            int id = Integer.parseInt(cmdArgs[1]);
@@ -160,8 +160,11 @@ public class Chat {
 	                    message.append(cmdArgs[i]);
 	                    message.append(" ");
 	                }
-	                roomHost.send(message.toString());
-	                System.out.println("Message Successfully Sent.");
+					roomHost.send("Message recieved from " + getmyIPAddress());
+					roomHost.send("Sender's port: " + getmyPort());
+	                roomHost.send("Message: " + message.toString());
+					System.out.println("Message Successfully Sent to " + roomHost.getPortNum() + ".");
+	                
 	            } else {
 	                System.out.println("Error : no available connection with the connection id given , please try again...");
 	            }
@@ -235,7 +238,7 @@ public class Chat {
 	        roomHost.closeCon();
 			System.out.println("Closing Connections...\nChat Successfully Exited.");
 	    }
-	    //roomsHosts.clear();
+	    roomsHosts.clear();
 	    serv.shutdown();
 	    
 	}
@@ -261,17 +264,20 @@ public class Chat {
 				this.sock = new Socket(host, port);
 				this.statement = new PrintWriter(sock.getOutputStream(), true);
 				conec = true;
-				return true;
+				
 			} catch(IOException e){
-				conec = false;
-				return false;
+				
 			}
+			return conec;
 
 		}
 
 		public void send(String message){
 			if(conec == true){
+
 				statement.println(message);
+			} else {
+				System.out.println("User not connected, message not sent.");
 			}
 		}
 
@@ -287,12 +293,16 @@ public class Chat {
 				}
 			}
 			conec = false;
-			return false;
+			return conec;
 		}
 
 		@Override
 		public String toString() {
 			return host + "\t/" + port;
+		}
+
+		public int getPortNum(){
+			return port;
 		}
 		
 	}
@@ -300,7 +310,7 @@ public class Chat {
 	public class Client implements Runnable{
 
 		BufferedReader connected;
-		Socket sock;
+		Socket sock = null;
 		boolean open = true;
 
 		public Client(BufferedReader connected, Socket ip){
@@ -309,19 +319,28 @@ public class Chat {
 		}
 
 		public void exit(){
-			try{
+			
 			if(connected == null){
-				connected.close();
-			}
+				try{
+					connected.close();
+				} catch (IOException e) {
+
+				}
+			
 			if(sock != null) {
-				sock.close();
+				try{
+					sock.close();
+				}
+			 catch(IOException e){
+
+				}
+				open = false;
+				Thread.currentThread().interrupt();
 			}
-			open = false;
-			Thread.currentThread().interrupt();
-			} catch(IOException e){
-				
-			}
+		
+			
 		} 
+	}
 
 		@Override
 		public void run() {
@@ -329,24 +348,26 @@ public class Chat {
 				String temp;
 			try {
 				temp = connected.readLine();
+				
 				if(temp != null) {
 
-					System.out.println(sock.getInetAddress().getHostAddress() + " ~ " + temp);
+					System.out.println(temp);
 
 				} else {
 					exit();
+					System.out.println("Connection terminated: " + sock.getInetAddress().getHostAddress() + ", please terminate on your end");
 					return;
 				}
 				
-			} catch(IOException e){
+				} catch(IOException e){
 				
+				}
 			}
-		}
 			
-		}
+			}
 		
-	}
-
+		}
+	
 	public class Server implements Runnable{
 
 
@@ -358,7 +379,7 @@ public class Chat {
 
 		@Override
 		public void run() {
-			System.out.println("Server has opened with port " +getmyPort()+ " .");
+			
 			try{
 				ServerSocket serSoc = new ServerSocket(getmyPort());										//Gets the port of the client and uses it as the serversocket for people to connect to
 				
