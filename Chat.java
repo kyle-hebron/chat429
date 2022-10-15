@@ -93,7 +93,7 @@ public class Chat {
 	            System.out.println("Error : connection unsuccessful (invalid remote host address) , please try again...");
 	        }
 	    } else {
-	        System.out.println("Error : the command format is invalid , please try 'connect <Destination> <PortNumber>' ...");
+	        System.out.println("Error : the command format is invalid , please try '/connect <Destination> <PortNumber>' ...");
 	    }
 	    
 	}
@@ -139,7 +139,7 @@ public class Chat {
 	            System.out.println("Error : connection id invalid , termination unsuccessful , please try again...");
 	        }
 	    } else {
-	        System.out.println("Error : the command format is invalid , please try 'terminate <ConnectionID>' ...");
+	        System.out.println("Error : the command format is invalid , please try '/terminate <ConnectionID>' ...");
 	    }
 	    
 	}
@@ -168,7 +168,7 @@ public class Chat {
 	            System.out.println("Error : connection id invalid , please try again...");
 	        }
 	    } else {
-	        System.out.println("Error : the command format is invalid , please try 'send <ConnectionID> <Message>' ...");
+	        System.out.println("Error : the command format is invalid , please try '/send <ConnectionID> <Message>' ...");
 	    }
 	    
 	}
@@ -199,13 +199,13 @@ public class Chat {
 	                connect(cmdArgs);
 	            } else if(userInput.equals("/list")) {
 	                list();
-	            } else if(userInput.equals("/terminate")) {
+	            } else if(userInput.startsWith("/terminate")) {
 	                String[] args = userInput.split("\\s+");
 	                terminate(args);
-	            } else if(userInput.equals("/send")) {
+	            } else if(userInput.startsWith("/send")) {
 	                String[] cmdArgs = userInput.split("\\s+");
 	                send(cmdArgs);
-	            } else if(userInput.equals("/exit")) {
+	            } else if(userInput.startsWith("/exit")) {
 	                System.out.println("Closing Connections...\nChat Successfully Exited.");
 	                closeEverything();
 	                System.exit(0);
@@ -386,7 +386,5 @@ public class Chat {
 	
 	
 }
-
-
 
 
