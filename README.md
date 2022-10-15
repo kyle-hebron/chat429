@@ -2,7 +2,7 @@
  
 # A Chat Application for Remote Message Exchange 
 
-## Use javac Chat.java and then java Chat <port number>
+## Use javac Chat.java and then java Chat port_number
 
 ### Kyle Hebron - Room class, Server class, and Client class
 
