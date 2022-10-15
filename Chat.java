@@ -357,7 +357,7 @@ public class Chat {
 
 		@Override
 		public void run() {
-			System.out.println("Server has opened with port " + getmyPort() " .");
+			System.out.println("Server has opened with port " +getmyPort()+ " .");
 			try{
 				ServerSocket serSoc = new ServerSocket(getmyPort());										//Gets the port of the client and uses it as the serversocket for people to connect to
 				
