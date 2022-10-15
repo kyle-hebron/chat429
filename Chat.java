@@ -14,7 +14,7 @@ import java.net.Socket;
 public class Chat {
 	
 	// main() start :
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException {
 	    if(args != null && args.length > 0) {
 	        try {
 	            int listenPort = Integer.parseInt(args[0]);
@@ -175,7 +175,7 @@ public class Chat {
 	// send() end .
 	
 	// startChat() start :
-	private void startChat() {
+	private void startChat() throws IOException {
 	    
 	    Scanner scanner = new Scanner(System.in);
 	    
@@ -227,14 +227,14 @@ public class Chat {
 	// startChat() end .
 	
 	// closeEverything() start :
-	private void closeEverything() {
+	private void closeEverything() throws IOException {
 	    
 	    for(Integer id : roomsHosts.keySet()) {
 	        Room roomHost = roomsHosts.get(id);
 	        roomHost.closeCon();
 	    }
 	    roomsHosts.clear();
-	    serv.stopChat();
+	    serv.shutdown();
 	    
 	}
 	// closeEverything() end .
