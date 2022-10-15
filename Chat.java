@@ -153,7 +153,7 @@ public class Chat {
 	            int id = Integer.parseInt(cmdArgs[1]);
 	            Room roomHost = roomsHosts.get(id);
 
-	            System.out.println("ID : " + roomsHosts.get(id));
+	            System.out.println("ID :\t" + roomsHosts.get(id));
 	            if(roomHost != null) {
 	                StringBuilder message = new StringBuilder();
 	                for(int i = 2; i < cmdArgs.length; i++) {
