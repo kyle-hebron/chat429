@@ -79,7 +79,7 @@ public class Chat {
 	        try {
 	            InetAddress remoteAddress = InetAddress.getByName(cmdArgs[1]);
 	            int remotePort = Integer.parseInt(cmdArgs[2]);
-	            System.out.println("Connecting to " +remoteAddress+ " on port : " +remotePort+ " .");
+	            System.out.println("Connecting to " +remoteAddress+ " on port /" +remotePort+ " ...");
 	            Room roomHost = new Room(remoteAddress, remotePort);
 	            if(roomHost.connected()) {
 	                roomsHosts.put(clientCounter, roomHost);
