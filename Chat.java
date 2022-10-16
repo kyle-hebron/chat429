@@ -47,7 +47,7 @@ public class Chat {
 	// help() start :
 	private void help() {
 	    
-	    System.out.println("--------------------------------------");
+	    System.out.println("--------------------------------------");   // Displays information about the available user interface options or command manual .
 	    System.out.println("~ Available Options , Command Manual ~");
 	    System.out.println("/help");
 	    System.out.println("/myip");
@@ -104,14 +104,14 @@ public class Chat {
 	// list() start :
 	private void list() {
 	    
-	    System.out.println("ID\tIP ADDRESS\tPORT");   // Displays the header .
+	    System.out.println("ID :\tIP ADDRESS\tPORT NO.");   // Displays the header .
 	    
 	    if(roomsHosts.isEmpty()) {
 	        System.out.println("There are no rooms available...");   // Checks for a room(s) . If there is no room(s) available , a message is displayed stating so .
 	    } else {
 	        for(Integer id : roomsHosts.keySet()) {
 	            Room roomHost = roomsHosts.get(id);
-	            System.out.println(id +"\t"+ roomHost.toString());   // Checks for a room(s) . If there is a room(s) available , the ID + IP Address + Port are displayed .
+	            System.out.println(id +"  :\t"+ roomHost.toString());   // Checks for a room(s) . If there is a room(s) available , the ID + IP Address + Port are displayed .
 	        }
 	    }
 	    
@@ -122,7 +122,7 @@ public class Chat {
 	private void terminate(String[] cmdArgs) {
 	    
 	    if(cmdArgs != null && cmdArgs.length == 2) {
-	        System.out.println("Termination of connection id " +cmdArgs[1]+ " in progress...");   // Attempts to terminate connection of the given connection id , a message is displayed stating so .
+	        System.out.println("Termination of Connection ID '" +cmdArgs[1]+ "' in progress...");   // Attempts to terminate connection of the given connection id , a message is displayed stating so .
 	        try {
 	            int id = Integer.parseInt(cmdArgs[1]);
 	            if(roomsHosts.containsKey(id) == false) {
@@ -153,17 +153,18 @@ public class Chat {
 	            int id = Integer.parseInt(cmdArgs[1]);
 	            Room roomHost = roomsHosts.get(id);
 
-	            System.out.println("ID :\t" + roomsHosts.get(id));
+	            // System.out.println("ID :\t" + roomsHosts.get(id));
+			
 	            if(roomHost != null) {
 	                StringBuilder message = new StringBuilder();   // Message object created using StringBuilder .
 	                for(int i = 2; i < cmdArgs.length; i++) {
 	                    message.append(cmdArgs[i]);
 	                    message.append(" ");
 	                }
-					roomHost.send("Message recieved from " + getmyIPAddress());
-					roomHost.send("Sender's port: " + getmyPort());
-	                roomHost.send("Message: " + message.toString());
-					System.out.println("Message Successfully Sent to " + roomHost.getPortNum() + ".");
+					roomHost.send("Message recieved from " + getmyIPAddress() + " .");
+					roomHost.send("Sender's Port : " + getmyPort() + " .");
+	                roomHost.send("Message : " + message.toString());
+					System.out.println("Message Successfully Sent To " + roomHost.getPortNum() + " .");
 	                
 	            } else {
 	                System.out.println("Error : no available connection with the connection id given , please try again...");
@@ -361,7 +362,7 @@ public class Chat {
 
 				} else {
 					exit();
-					System.out.println("Connection terminated: " + sock.getInetAddress().getHostAddress() + ", please terminate on your end");	//Once a client terminates connection, it will disconnect from that server and tell the other clients to terminate their connection
+					System.out.println("Connection '" + sock.getInetAddress().getHostAddress() + "' terminated , please terminate the connection on your end .");	//Once a client terminates connection, it will disconnect from that server and tell the other clients to terminate their connection
 					return;
 				}
 				
