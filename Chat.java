@@ -15,6 +15,8 @@ import java.net.Socket;
 
 public class Chat {
 	
+	
+	
 	// main() start :
 	public static void main(String[] args) throws IOException {
 	    if(args != null && args.length > 0) {
@@ -132,7 +134,7 @@ public class Chat {
 	            Room roomHost = roomsHosts.get(id);
 	            boolean closed = !roomHost.closeCon();
 	            if(closed) {
-	                System.out.println("Connection ID " +id+ " Successfully Terminated.");   // If the termination of the given connection id is successful , a message is displayed stating so .
+	                System.out.println("Connection ID '" +id+ "' Successfully Terminated .");   // If the termination of the given connection id is successful , a message is displayed stating so .
 	                roomsHosts.remove(id);
 	            }
 	        } catch(NumberFormatException nfe) {
@@ -161,19 +163,19 @@ public class Chat {
 	                    message.append(cmdArgs[i]);
 	                    message.append(" ");
 	                }
-					roomHost.send("Message recieved from " + getmyIPAddress() + " .");
-					roomHost.send("Sender's Port : " + getmyPort() + " .");
-	                roomHost.send("Message : " + message.toString());
-					System.out.println("Message Successfully Sent To " + roomHost.getPortNum() + " .");
+					roomHost.send("Message Recieved From : " + getmyIPAddress() + " .");   // Displays where the message was recieved from .
+					roomHost.send("Sender's Port : " + getmyPort() + " .");   // Displays the sender's port .
+	                roomHost.send("Message : " + message.toString());   // Displays the message .
+					System.out.println("Message Successfully Sent To " + roomHost.getPortNum() + " .");   // On successfully executing the command , the sender should display 'Message sent to <connection id>' on the screen .
 	                
 	            } else {
-	                System.out.println("Error : no available connection with the connection id given , please try again...");
+	                System.out.println("Error : no available connection with the connection id given , please try again...");   // An error message is displayed when the given connection id is not available , the user is prompted to try again .
 	            }
 	        } catch(NumberFormatException nfe) {
-	            System.out.println("Error : connection id invalid , please try again...");
+	            System.out.println("Error : connection id invalid , please try again...");   // An error message is displayed when the given connection id is invalid , the user is prompted to try again .
 	        }
 	    } else {
-	        System.out.println("Error : the command format is invalid , please try '/send <ConnectionID> <Message>' ...");
+	        System.out.println("Error : the command format is invalid , please try '/send <ConnectionID> <Message>' ...");   // An error message is displayed when the command format is invalid , the user is prompted to try again and shown the proper command format to use .
 	    }
 	    
 	}
@@ -182,7 +184,7 @@ public class Chat {
 	// startChat() start :
 	private void startChat() throws IOException {
 	    
-	    Scanner scanner = new Scanner(System.in);
+	    Scanner scanner = new Scanner(System.in);   // Get user input .
 	    
 	    try {
 	        
@@ -191,30 +193,30 @@ public class Chat {
 			new Thread(serv).start();
 	        
 	        while(true) {
-	            System.out.println("Enter a command below : ");
+	            System.out.println("Enter a command below : ");   // Prompt the user to enter a command .
 	            String userInput = scanner.nextLine();
-	            if(userInput.equals("/help")) {
+	            if(userInput.equals("/help")) {   // '/help' command and corresponding functionalities .
 	                help();
-	            } else if(userInput.equals("/myip")) {
+	            } else if(userInput.equals("/myip")) {   // '/myip' command and corresponding functionalities .
 	                System.out.println(getmyIPAddress());
-	            } else if(userInput.equals("/myport")) {
+	            } else if(userInput.equals("/myport")) {   // '/myport' command and corresponding functionalities .
 	                System.out.println(getmyPort());
-	            } else if(userInput.startsWith("/connect")) {
+	            } else if(userInput.startsWith("/connect")) {   // '/connect' command and corresponding functionalities .
 	                String[] cmdArgs = userInput.split("\\s+");
 	                connect(cmdArgs);
-	            } else if(userInput.equals("/list")) {
+	            } else if(userInput.equals("/list")) {   // '/list' command and corresponding functionalities .
 	                list();
-	            } else if(userInput.startsWith("/terminate")) {
+	            } else if(userInput.startsWith("/terminate")) {   // '/terminate' command and corresponding functionalities .
 	                String[] args = userInput.split("\\s+");
 	                terminate(args);
-	            } else if(userInput.startsWith("/send")) {
+	            } else if(userInput.startsWith("/send")) {   // '/send' command and corresponding functionalities .
 	                String[] cmdArgs = userInput.split("\\s+");
 	                send(cmdArgs);
-	            } else if(userInput.equals("/exit")) {
-	                closeEverything();
+	            } else if(userInput.equals("/exit")) {   // '/exit' command and corresponding functionalities .
+	                closeEverything();   // Close all .
 	                System.exit(0);
 	            } else {
-	                System.out.println("Error : invalid command , please try again...");
+	                System.out.println("Error : invalid command , please try again...");   // An error message is displayed when the given command is invalid , the user is prompted to try again .
 	            }
 	        }
 	        
@@ -222,9 +224,9 @@ public class Chat {
 	        e.printStackTrace();
 	    } finally {
 	        if(scanner != null) {
-	            scanner.close();
+	            scanner.close();   // Close scanner .
 	        }
-	        closeEverything();
+	        closeEverything();   // Close all .
 	    }
 	    
 	}
@@ -236,11 +238,11 @@ public class Chat {
 	    for(Integer id : roomsHosts.keySet()) {
 	        Room roomHost = roomsHosts.get(id);
 	        roomHost.closeCon();   // Closes the connection(s) .
-		System.out.println("Closing Connections...\nChat Successfully Exited.");   // If the connection(s) are closed successfully , a message is displayed stating so .
 	    }
 	    roomsHosts.clear();   // Clear roomsHosts .
 	    serv.shutdown();   // Shutdown serv .
-	    
+	    System.out.println("Closing Connections...\nChat Successfully Exited.");   // If the connection(s) are closed successfully , a message is displayed stating so .
+		
 	}
 	// closeEverything() end .
 	
@@ -362,7 +364,7 @@ public class Chat {
 
 				} else {
 					exit();
-					System.out.println("Connection '" + sock.getInetAddress().getHostAddress() + "' terminated , please terminate the connection on your end .");	//Once a client terminates connection, it will disconnect from that server and tell the other clients to terminate their connection
+					System.out.println("Connection '" + sock.getInetAddress().getHostAddress() + "' has been terminated , please terminate the connection on your end .");	//Once a client terminates connection, it will disconnect from that server and tell the other clients to terminate their connection
 					return;
 				}
 				
@@ -426,6 +428,6 @@ public class Chat {
 
 	}
 	
+	
+	
 }
-
-
