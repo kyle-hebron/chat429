@@ -155,18 +155,16 @@ public class Chat {
 	            int id = Integer.parseInt(cmdArgs[1]);
 	            Room roomHost = roomsHosts.get(id);
 
-	            // System.out.println("ID :\t" + roomsHosts.get(id));
-			
 	            if(roomHost != null) {
-	                StringBuilder message = new StringBuilder();   // Message object created using StringBuilder .
+	                StringBuilder message = new StringBuilder();   // Message object created using StringBuilder , the message to be sent can be up-to 100 characters long .
 	                for(int i = 2; i < cmdArgs.length; i++) {
 	                    message.append(cmdArgs[i]);
 	                    message.append(" ");
 	                }
-					roomHost.send("Message Recieved From : " + getmyIPAddress() + " .");   // Displays where the message was recieved from .
-					roomHost.send("Sender's Port : " + getmyPort() + " .");   // Displays the sender's port .
+			roomHost.send("Message Recieved From : " + getmyIPAddress() + " .");   // Displays where the message was recieved from .
+			roomHost.send("Sender's Port : " + getmyPort() + " .");   // Displays the sender's port .
 	                roomHost.send("Message : " + message.toString());   // Displays the message .
-					System.out.println("Message Successfully Sent To " + roomHost.getPortNum() + " .");   // On successfully executing the command , the sender should display 'Message sent to <connection id>' on the screen .
+			System.out.println("Message Successfully Sent To " + roomHost.getPortNum() + " .");   // On successfully executing the command , the sender should display 'Message sent to <connection id>' on the screen .
 	                
 	            } else {
 	                System.out.println("Error : no available connection with the connection id given , please try again...");   // An error message is displayed when the given connection id is not available , the user is prompted to try again .
@@ -189,8 +187,8 @@ public class Chat {
 	    try {
 	        
 	        myIPAddress = InetAddress.getLocalHost();
-			serv = new Server();
-			new Thread(serv).start();
+		serv = new Server();
+		new Thread(serv).start();
 	        
 	        while(true) {
 	            System.out.println("Enter a command below : ");   // Prompt the user to enter a command .
@@ -246,8 +244,10 @@ public class Chat {
 	}
 	// closeEverything() end .
 	
-	// ! ! ! //
-
+	// |
+	// | ! ! !
+	// |
+	
 	//Room class: 
 	//Makes managing socket connection and wraps the socket and the output stream for the clients to send messages easier
 	
